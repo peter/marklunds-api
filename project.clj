@@ -3,7 +3,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [versioned "0.11.24"]]
   :min-lein-version "2.0.0"
-  :uberjar-name "marklunds.jar"
+  :uberjar-name "marklunds-standalone.jar"
   :main ^:skip-aot app.core
   :target-path "target/%s"
   :profiles {
