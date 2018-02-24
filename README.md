@@ -18,8 +18,8 @@ Create an admin user:
 
 ```
 lein repl
-(require '[app.versioned-example :as versioned-example])
-(def system (versioned-example/-main :start-web false))
+(require '[app.core :as marklunds])
+(def system (marklunds/-main :start-web false))
 (require '[versioned.models.users :as users])
 (users/create (:app system) {:name "Admin User" :email "admin@example.com" :password "admin"})
 exit
@@ -56,4 +56,13 @@ curl -i -X PUT -H 'Content-Type: application/json' -H "Authorization: Bearer $TO
 
 # delete
 curl -i -X DELETE -H "Authorization: Bearer $TOKEN" http://localhost:5000/v1/sections/1
+```
+
+## Dropbox
+
+```
+(require '[app.core :as marklunds])
+(def system (marklunds/-main :start-web false))
+(require '[app.dropbox :as dropbox :reload-all true])
+(dropbox/save (:app system) {:type "foobar" :id 1 :body "foobar"})
 ```

@@ -2,19 +2,16 @@
   (:require [versioned :as versioned]
             [versioned.components.config :refer [get-env]]))
 
-(def sites ["se" "no" "dk" "fi"])
-
 (def default-config {
   :models {
-    :pages "app.models.pages/spec"
+    ; :pages "app.models.blog-posts/spec"
   }
-  :sites sites
-  :locales sites
-  :mongodb-url "mongodb://127.0.0.1/versioned-example"
+  :mongodb-url "mongodb://127.0.0.1/marklunds"
   :search-enabled true
-  :algoliasearch-index-name (str "versioned-example-" (get-env {}))
+  :algoliasearch-index-name (str "marklunds-" (get-env {}))
   :algoliasearch-application-id nil ; provided with env variable
   :algoliasearch-api-key nil ; provided with env variable
+  :dropbox-api-token nil ; provided with env variable
 })
 
 (defn -main [& {:as custom-config}]
