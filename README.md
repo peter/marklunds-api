@@ -21,7 +21,7 @@ lein repl
 (require '[app.core :as marklunds])
 (def system (marklunds/-main :start-web false))
 (require '[versioned.models.users :as users])
-(users/create (:app system) {:name "Admin User" :email "admin@example.com" :password "admin" :permisssion "write"})
+(users/create (:app system) {:name "Peter Marklund" :email "admin@example.com" :password "admin" :permission "write"})
 exit
 ```
 
@@ -34,9 +34,11 @@ lein run
 In a different terminal, log in:
 
 ```bash
+export BASE_URL=http://localhost:5000
+
 export BASE_URL=https://marklunds-api.herokuapp.com
 
-curl -i -X POST -H 'Content-Type: application/json' -d '{"email": "admin@example.com", "password": "admin"}' $BASE_URL/v1/login
+curl -i -X POST -H 'Content-Type: application/json' -d '{"email": "peter@marklunds.com", "password": ""}' $BASE_URL/v1/login
 
 export TOKEN=<token in header response above>
 ```
@@ -54,7 +56,7 @@ curl -i -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/blog_posts/1
 curl -i -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/blog_posts
 
 # update
-curl -i -X PUT -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": {"se": "My Section EDIT"}}}}' $BASE_URL/v1/blog_posts/1
+curl -i -X PUT -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": "hello world EDIT"}}}' $BASE_URL/v1/blog_posts/1
 
 # delete
 curl -i -X DELETE -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/blog_posts/1
@@ -68,3 +70,21 @@ curl -i -X DELETE -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/blog_posts/1
 (require '[app.dropbox :as dropbox :reload-all true])
 (dropbox/save (:app system) {:type "foobar" :id 1 :body "foobar"})
 ```
+
+## Get a Local Checkout of Versioned Library
+
+To checkout the versioned library (if you haven't already):
+
+```
+cd <your-parent-src-dir>
+git clone https://github.com/peter/versioned <your-src-dir>/versioned
+```
+
+Then, in this repository, do:
+
+```
+mkdir checkouts
+ln -s <your-src-dir>/versioned checkouts/versioned
+```
+
+Now you can make changes in your local versioned checkout and they will be reflected in this app.
