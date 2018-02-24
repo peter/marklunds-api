@@ -23,6 +23,8 @@
 (defn str-to-byte-array [value]
   (byte-array (map byte value)))
 
+; https://www.dropbox.com/developers/documentation/http/documentation#files-upload
+;
 ; curl -X POST https://content.dropboxapi.com/2/files/upload \
 ;     --header "Authorization: $AUTH" \
 ;     --header "Dropbox-API-Arg: {\"path\": \"/README.md\",\"mode\": \"add\",\"autorename\": true,\"mute\": false}" \
@@ -33,7 +35,11 @@
     (let [path (file-path app doc)
           headers {
             :Authorization (str "Bearer " (api-token app))
-            :Dropbox-API-Arg (json/generate-string {:path path :mode "add" :autorename true :mute false})
+            :Dropbox-API-Arg (json/generate-string {
+              :path path
+              :mode "overwrite"
+              :autorename false
+              :mute false})
             :Content-Type "application/octet-stream"
           }
           body (str-to-byte-array (json/generate-string doc))
