@@ -17,7 +17,7 @@
             :body {:type "string"}
           }
           :additionalProperties false
-          :required [:title]
+          :required [:body]
         }
       }
   ))
