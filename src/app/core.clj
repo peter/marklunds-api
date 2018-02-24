@@ -4,7 +4,7 @@
 
 (def default-config {
   :models {
-    ; :pages "app.models.blog-posts/spec"
+    :blog-posts "app.models.blog-posts/spec"
   }
   :mongodb-url "mongodb://127.0.0.1/marklunds"
   :search-enabled true

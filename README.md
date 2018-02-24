@@ -34,7 +34,9 @@ lein run
 In a different terminal, log in:
 
 ```bash
-curl -i -X POST -H 'Content-Type: application/json' -d '{"email": "admin@example.com", "password": "admin"}' http://localhost:5000/v1/login
+export BASE_URL=https://marklunds-api.herokuapp.com
+
+curl -i -X POST -H 'Content-Type: application/json' -d '{"email": "admin@example.com", "password": "admin"}' $BASE_URL/v1/login
 
 export TOKEN=<token in header response above>
 ```
@@ -43,19 +45,19 @@ Basic CRUD workflow:
 
 ```bash
 # create
-curl -i -X POST -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": {"se": "My Section"}, "slug": {"se": "my-section"}}}}' http://localhost:5000/v1/sections
+curl -i -X POST -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": "hello world"}}}' $BASE_URL/v1/blog-posts
 
 # get
-curl -i -H "Authorization: Bearer $TOKEN" http://localhost:5000/v1/sections/1
+curl -i -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/sections/1
 
 # list
-curl -i -H "Authorization: Bearer $TOKEN" http://localhost:5000/v1/sections
+curl -i -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/sections
 
 # update
-curl -i -X PUT -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": {"se": "My Section EDIT"}}}}' http://localhost:5000/v1/sections/1
+curl -i -X PUT -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": {"se": "My Section EDIT"}}}}' $BASE_URL/v1/sections/1
 
 # delete
-curl -i -X DELETE -H "Authorization: Bearer $TOKEN" http://localhost:5000/v1/sections/1
+curl -i -X DELETE -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/sections/1
 ```
 
 ## Dropbox
