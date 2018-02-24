@@ -21,7 +21,7 @@ lein repl
 (require '[app.core :as marklunds])
 (def system (marklunds/-main :start-web false))
 (require '[versioned.models.users :as users])
-(users/create (:app system) {:name "Admin User" :email "admin@example.com" :password "admin"})
+(users/create (:app system) {:name "Admin User" :email "admin@example.com" :password "admin" :permisssion "write"})
 exit
 ```
 
@@ -45,19 +45,19 @@ Basic CRUD workflow:
 
 ```bash
 # create
-curl -i -X POST -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": "hello world"}}}' $BASE_URL/v1/blog-posts
+curl -i -X POST -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": "hello world"}}}' $BASE_URL/v1/blog_posts
 
 # get
-curl -i -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/sections/1
+curl -i -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/blog_posts/1
 
 # list
-curl -i -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/sections
+curl -i -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/blog_posts
 
 # update
-curl -i -X PUT -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": {"se": "My Section EDIT"}}}}' $BASE_URL/v1/sections/1
+curl -i -X PUT -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": {"se": "My Section EDIT"}}}}' $BASE_URL/v1/blog_posts/1
 
 # delete
-curl -i -X DELETE -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/sections/1
+curl -i -X DELETE -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/blog_posts/1
 ```
 
 ## Dropbox
