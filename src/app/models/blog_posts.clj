@@ -11,6 +11,9 @@
       (dropbox-spec)
       {
         :type model-type
+        :x-meta {
+          :admin_properties [:subject :body]
+        }
         :schema {
           :type "object"
           :properties {

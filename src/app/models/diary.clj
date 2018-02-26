@@ -13,6 +13,9 @@
         :type model-type
         :schema {
           :type "object"
+          :x-meta {
+            :admin_properties [:body]
+          }
           :properties {
             :body {:type "string"}
             :legacy_created_at {:type "string" :format "date-time" :x-meta {:versioned false}}
