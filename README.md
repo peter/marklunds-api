@@ -99,9 +99,11 @@ Now you can make changes in your local versioned checkout and they will be refle
 (require '[versioned.util.date :as d])
 (require '[versioned.model-api :as model-api])
 (require '[cheshire.core :as json])
+(require '[clj-http.client :as client])
+(def file-url 'https://www.dropbox.com/s/9g9wf8mh9i2n9ht/marklunds-postgresql-2018-02.json?dl=1')
 (def file-path "/Users/peter/Dropbox/data/marklunds-postgresql-2018-02.json")
-(def lines (as-> file-path v
-                (slurp v)
+(def file-str (:body (client/get file-url)))
+(def lines (as-> file-str v
                 (clojure.string/replace v "\\\\" "\\")
                 (clojure.string/split-lines v)))
 ; (seq (char-array (nth lines 0)))
@@ -128,15 +130,28 @@ Now you can make changes in your local versioned checkout and they will be refle
 ## Import Diary Entries
 
 ```
+heroku pg:backups:capture -a savorings
+curl $(heroku pg:backups:url -a savorings) > ~/tmp/savorings-prod.sql
+pg_restore --verbose --clean --no-acl --no-owner -d savorings_development  ~/tmp/savorings-prod.sql
+
+psql savorings_development
+COPY (SELECT ROW_TO_JSON(t)
+      FROM (SELECT * FROM entries) t)
+      TO '/Users/peter/Dropbox/data/savorings-diary-postgresql-2018-02.json';
+```
+
+```
 (require '[app.core :as marklunds])
 (def system (marklunds/-main :start-web false))
 (def app (:app system))
 (require '[versioned.util.date :as d])
 (require '[versioned.model-api :as model-api])
 (require '[cheshire.core :as json])
+(require '[clj-http.client :as client])
 (def file-path "/Users/peter/Dropbox/data/savorings-diary-postgresql-2018-02.json")
-(def lines (as-> file-path v
-                (slurp v)
+(def file-url "https://www.dropbox.com/s/djw0fkbrqybd9j7/savorings-diary-postgresql-2018-02.json?dl=1")
+(def file-str (:body (client/get file-url)))
+(def lines (as-> file-str v
                 (clojure.string/replace v "\\\\" "\\")
                 (clojure.string/split-lines v)))
 (defn parse-date [date-str]
