@@ -42,7 +42,8 @@
               :mute false})
             :Content-Type "application/octet-stream"
           }
-          body (str-to-byte-array (json/generate-string doc))
+          ; body (str-to-byte-array (json/generate-string doc))
+          body (json/generate-string doc)
           result (client/post upload-url {:headers headers
                                           :body body
                                           :as :json

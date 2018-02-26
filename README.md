@@ -102,6 +102,7 @@ Now you can make changes in your local versioned checkout and they will be refle
 (require '[clj-http.client :as client])
 (require '[versioned.db-api :as db-api])
 (db-api/delete (:database app) :blog_posts {})
+(db-api/delete (:database app) :blog_posts_versions {})
 (def file-url "https://www.dropbox.com/s/9g9wf8mh9i2n9ht/marklunds-postgresql-2018-02.json?dl=1")
 (def file-path "/Users/peter/Dropbox/data/marklunds-postgresql-2018-02.json")
 (def file-str (:body (client/get file-url)))
@@ -125,7 +126,7 @@ Now you can make changes in your local versioned checkout and they will be refle
 (def docs (map parse-line lines))
 (for [doc docs]
   (let [result (model-api/create app (get-in app [:models :blog_posts]) doc)]
-    (println result)))
+    (println "result" result)))
 ; 327 blog posts
 ```
 
@@ -152,6 +153,7 @@ COPY (SELECT ROW_TO_JSON(t)
 (require '[clj-http.client :as client])
 (require '[versioned.db-api :as db-api])
 (db-api/delete (:database app) :diary {})
+(db-api/delete (:database app) :diary_versions {})
 (def file-path "/Users/peter/Dropbox/data/savorings-diary-postgresql-2018-02.json")
 (def file-url "https://www.dropbox.com/s/djw0fkbrqybd9j7/savorings-diary-postgresql-2018-02.json?dl=1")
 (def file-str (:body (client/get file-url)))
