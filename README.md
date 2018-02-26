@@ -130,6 +130,19 @@ Now you can make changes in your local versioned checkout and they will be refle
 ; 327 blog posts
 ```
 
+```
+(require '[app.core :as marklunds])
+(def system (marklunds/-main :start-web false))
+(def app (:app system))
+(require '[versioned.db-api :as db-api])
+(def blog-posts (db-api/find (:database app) :blog_posts {} {:per-page 10000}))
+(for [doc blog-posts]
+  (let [query (select-keys doc [:id])
+        update {:$set {:created_at (:legacy_created_at doc)}
+                :$unset {:legacy_created_at ""}}]
+    (db-api/update (:database app) :blog_posts query update)))
+```
+
 ## Import Diary Entries
 
 ```
@@ -179,4 +192,17 @@ COPY (SELECT ROW_TO_JSON(t)
   (let [result (model-api/create app (get-in app [:models :diary]) doc)]
     (println result)))
 ; 1037 diary entries (count lines)
+```
+
+```
+(require '[app.core :as marklunds])
+(def system (marklunds/-main :start-web false))
+(def app (:app system))
+(require '[versioned.db-api :as db-api])
+(def blog-posts (db-api/find (:database app) :diary {} {:per-page 10000}))
+(for [doc blog-posts]
+  (let [query (select-keys doc [:id])
+        update {:$set {:created_at (:legacy_created_at doc)}
+                :$unset {:legacy_created_at ""}}]
+    (db-api/update (:database app) :diary query update)))
 ```

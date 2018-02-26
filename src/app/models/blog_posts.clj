@@ -11,11 +11,11 @@
       (dropbox-spec)
       {
         :type model-type
-        :x-meta {
-          :admin_properties [:subject :body]
-        }
         :schema {
           :type "object"
+          :x-meta {
+            :admin_properties [:subject :body :created_at]
+          }
           :properties {
             :subject {:type "string"}
             :body {:type "string"}
