@@ -100,7 +100,9 @@ Now you can make changes in your local versioned checkout and they will be refle
 (require '[versioned.model-api :as model-api])
 (require '[cheshire.core :as json])
 (require '[clj-http.client :as client])
-(def file-url 'https://www.dropbox.com/s/9g9wf8mh9i2n9ht/marklunds-postgresql-2018-02.json?dl=1')
+(require '[versioned.db-api :as db-api])
+(db-api/delete (:database app) :blog_posts {})
+(def file-url "https://www.dropbox.com/s/9g9wf8mh9i2n9ht/marklunds-postgresql-2018-02.json?dl=1")
 (def file-path "/Users/peter/Dropbox/data/marklunds-postgresql-2018-02.json")
 (def file-str (:body (client/get file-url)))
 (def lines (as-> file-str v
@@ -116,7 +118,7 @@ Now you can make changes in your local versioned checkout and they will be refle
   (as-> line v
         (json/parse-string v)
         ; id subject body comments_count created_at
-        (clojure.set/rename-keys v {"inserted_at" "legacy_created_at"})
+        (clojure.set/rename-keys v {"created_at" "legacy_created_at"})
         (clojure.walk/keywordize-keys v)
         (merge v {:created_by "peter@marklunds.com"})
         (assoc v :legacy_created_at (parse-date (:legacy_created_at v)))))
@@ -148,6 +150,8 @@ COPY (SELECT ROW_TO_JSON(t)
 (require '[versioned.model-api :as model-api])
 (require '[cheshire.core :as json])
 (require '[clj-http.client :as client])
+(require '[versioned.db-api :as db-api])
+(db-api/delete (:database app) :diary {})
 (def file-path "/Users/peter/Dropbox/data/savorings-diary-postgresql-2018-02.json")
 (def file-url "https://www.dropbox.com/s/djw0fkbrqybd9j7/savorings-diary-postgresql-2018-02.json?dl=1")
 (def file-str (:body (client/get file-url)))
