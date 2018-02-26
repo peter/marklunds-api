@@ -14,11 +14,13 @@
         :schema {
           :type "object"
           :properties {
-            :title {:type "string"}
+            :subject {:type "string"}
             :body {:type "string"}
+            :comments_count {:type "integer"}
+            :legacy_created_at {:type "string" :format "date-time" :x-meta {:versioned false}}
           }
           :additionalProperties false
-          :required [:title]
+          :required [:subject :body]
         }
       }
   ))

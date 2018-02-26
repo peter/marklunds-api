@@ -8,6 +8,7 @@
     :diary "app.models.diary/spec"
   }
   :mongodb-url "mongodb://127.0.0.1/marklunds"
+  :require-read-auth false
   :search-enabled true
   :algoliasearch-index-name (str "marklunds-" (get-env {}))
   :algoliasearch-application-id nil ; provided with env variable
