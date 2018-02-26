@@ -199,8 +199,8 @@ COPY (SELECT ROW_TO_JSON(t)
 (def system (marklunds/-main :start-web false))
 (def app (:app system))
 (require '[versioned.db-api :as db-api])
-(def blog-posts (db-api/find (:database app) :diary {} {:per-page 10000}))
-(for [doc blog-posts]
+(def diary-entries (db-api/find (:database app) :diary {} {:per-page 10000}))
+(for [doc diary-entries]
   (let [query (select-keys doc [:id])
         update {:$set {:created_at (:legacy_created_at doc)}
                 :$unset {:legacy_created_at ""}}]
