@@ -15,6 +15,7 @@
           :type "object"
           :properties {
             :body {:type "string"}
+            :legacy_created_at {:type "string" :format "date-time" :x-meta {:versioned false}}
           }
           :additionalProperties false
           :required [:body]

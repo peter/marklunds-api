@@ -114,7 +114,7 @@ Now you can make changes in your local versioned checkout and they will be refle
   (as-> line v
         (json/parse-string v)
         ; id subject body comments_count created_at
-        (clojure.set/rename-keys v {"created_at" "legacy_created_at"})
+        (clojure.set/rename-keys v {"inserted_at" "legacy_created_at"})
         (clojure.walk/keywordize-keys v)
         (merge v {:created_by "peter@marklunds.com"})
         (assoc v :legacy_created_at (parse-date (:legacy_created_at v)))))
@@ -128,5 +128,34 @@ Now you can make changes in your local versioned checkout and they will be refle
 ## Import Diary Entries
 
 ```
+(require '[app.core :as marklunds])
+(def system (marklunds/-main :start-web false))
+(def app (:app system))
+(require '[versioned.util.date :as d])
+(require '[versioned.model-api :as model-api])
+(require '[cheshire.core :as json])
 (def file-path "/Users/peter/Dropbox/data/savorings-diary-postgresql-2018-02.json")
+(def lines (as-> file-path v
+                (slurp v)
+                (clojure.string/replace v "\\\\" "\\")
+                (clojure.string/split-lines v)))
+(defn parse-date [date-str]
+  (let [parsable-str (if (re-matches #".+\.\d\d\d$" date-str)
+                       (str date-str "Z")
+                       (str date-str ".000Z"))]
+    (d/parse-datetime parsable-str)))
+(defn parse-line [line]
+  (as-> line v
+        (json/parse-string v)
+        ; id subject body comments_count created_at
+        (clojure.set/rename-keys v {"inserted_at" "legacy_created_at"})
+        (clojure.walk/keywordize-keys v)
+        (merge v {:created_by "peter@marklunds.com"})
+        (assoc v :legacy_created_at (parse-date (:legacy_created_at v)))
+        (dissoc v :updated_at)))
+(def docs (map parse-line lines))
+(for [doc docs]
+  (let [result (model-api/create app (get-in app [:models :diary]) doc)]
+    (println result)))
+; 1037 diary entries (count lines)
 ```
