@@ -143,6 +143,18 @@ Now you can make changes in your local versioned checkout and they will be refle
     (db-api/update (:database app) :blog_posts query update)))
 ```
 
+```
+(require '[app.core :as marklunds])
+(def system (marklunds/-main :start-web false))
+(def app (:app system))
+(require '[versioned.db-api :as db-api])
+(def blog-posts (db-api/find (:database app) :blog_posts {} {:per-page 10000}))
+(for [doc blog-posts]
+  (let [query (select-keys doc [:id])
+        update {:$set {:published_version (:version doc)}}]
+    (db-api/update (:database app) :blog_posts query update)))
+```
+
 ## Import Diary Entries
 
 ```

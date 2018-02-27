@@ -14,7 +14,7 @@
         :schema {
           :type "object"
           :x-meta {
-            :admin_properties [:subject :body :created_at]
+            :admin_properties [:subject :body :created_at :version :published_version]
           }
           :properties {
             :subject {:type "string"}
