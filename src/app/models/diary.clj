@@ -15,6 +15,7 @@
           :type "object"
           :x-meta {
             :admin_properties [:body :created_at]
+            :require-read-auth true
           }
           :properties {
             :body {:type "string" :x-meta {:form_field "textarea"}}
