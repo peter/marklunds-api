@@ -17,7 +17,7 @@
             :admin_properties [:body :created_at]
           }
           :properties {
-            :body {:type "string"}
+            :body {:type "string" :x-meta {:form_field "textarea"}}
             :legacy_created_at {:type "string" :format "date-time" :x-meta {:versioned false}}
           }
           :additionalProperties false

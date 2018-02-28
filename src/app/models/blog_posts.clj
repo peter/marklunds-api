@@ -18,7 +18,7 @@
           }
           :properties {
             :subject {:type "string"}
-            :body {:type "string"}
+            :body {:type "string" :x-meta {:form_field "textarea"}}
             :comments_count {:type "integer"}
             :legacy_created_at {:type "string" :format "date-time" :x-meta {:versioned false}}
           }
