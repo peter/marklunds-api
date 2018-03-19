@@ -4,6 +4,12 @@ This the content API that serves the marklunds Node web app or www.marklunds.com
 This API is based on the [versioned](https://github.com/peter/versioned)
 framework. The versioned framework provides a CMS REST API based on MongoDB with user authentication, JSON schema validation, versioning, publishing, and relationships.
 
+## Restore Dev DB from Production
+
+```
+bin/db-dump && bin/db-restore
+```
+
 ## Getting Started
 
 First make sure you have [Leiningen/Clojure](http://leiningen.org) and Mongodb installed.
