@@ -1,0 +1,6 @@
+BASE_DIR=~/Dropbox/data/projects/marklunds/db-backup
+PASSWORD=lcmo15dspgalm3239tsh82frft
+USER=heroku_dk63943n
+DATABASE=$USER
+TODAY=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+LOCAL_DATABASE=marklunds

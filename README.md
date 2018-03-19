@@ -35,32 +35,51 @@ lein run
 In a different terminal, log in:
 
 ```bash
-export BASE_URL=http://localhost:5000
+export BASE_URL=http://localhost:5000/v1
 
-export BASE_URL=https://marklunds-api.herokuapp.com
+export BASE_URL=https://marklunds-api.herokuapp.com/v1
 
-curl -i -X POST -H 'Content-Type: application/json' -d '{"email": "peter@marklunds.com", "password": ""}' $BASE_URL/v1/login
-
+curl -i -X POST -H 'Content-Type: application/json' -d '{"email": "peter@marklunds.com", "password": ""}' $BASE_URL/login
 export TOKEN=<token in header response above>
+```
+
+Single step login can looks something like this:
+
+```bash
+export TOKEN=$(curl -X POST -H 'Content-Type: application/json' -d '{"email": "peter@marklunds.com", "password": ""}' $BASE_URL/login | jsonq 'data.attributes.access_token')
+```
+
+Create a blog post:
+
+```
+echo '{"data": {"attributes": {"subject": "test post", "body": "test body"}}}' | http POST $BASE_URL/blog_posts Authorization:"Bearer $TOKEN"
+
+http $BASE_URL/blog_posts/449 Authorization:"Bearer $TOKEN"
+```
+
+Create model schema:
+
+```
+echo '{"data": {"attributes": {"model_type": "blog_posts", "schema": {"type": "object", "properties": {"title": {"type": "string"}}}}}}' | http POST $BASE_URL/models Authorization:"Bearer $TOKEN"
 ```
 
 Basic CRUD workflow:
 
 ```bash
 # create
-curl -i -X POST -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": "hello world"}}}' $BASE_URL/v1/blog_posts
+curl -i -X POST -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": "hello world"}}}' $BASE_URL/blog_posts
 
 # get
-curl -i -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/blog_posts/1
+curl -i -H "Authorization: Bearer $TOKEN" $BASE_URL/blog_posts/1
 
 # list
-curl -i -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/blog_posts
+curl -i -H "Authorization: Bearer $TOKEN" $BASE_URL/blog_posts
 
 # update
-curl -i -X PUT -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": "hello world EDIT"}}}' $BASE_URL/v1/blog_posts/1
+curl -i -X PUT -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" -d '{"data": {"attributes": {"title": "hello world EDIT"}}}' $BASE_URL/blog_posts/1
 
 # delete
-curl -i -X DELETE -H "Authorization: Bearer $TOKEN" $BASE_URL/v1/blog_posts/1
+curl -i -X DELETE -H "Authorization: Bearer $TOKEN" $BASE_URL/blog_posts/1
 ```
 
 ## Dropbox
