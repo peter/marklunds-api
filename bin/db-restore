@@ -1,6 +1,5 @@
+#!/usr/bin/env bash
+
 set -x
 
-source bin/env
-
-mongo $LOCAL_DATABASE --eval "db.dropDatabase()"
-mongorestore -h 127.0.0.1 -d $LOCAL_DATABASE $BASE_DIR/latest/$DATABASE
+bin/db-download && bin/db-import

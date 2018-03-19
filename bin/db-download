@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -x
+
+source bin/env
+
+TARGET=$DB_BACKUP_DIR/$TIMESTAMP
+
+mongodump -h ds147518.mlab.com:47518 -d $DATABASE -u $DB_USER -p $DB_PASSWORD -o $TARGET
+rm $DB_BACKUP_DIR/latest
+ln -s $TARGET $DB_BACKUP_DIR/latest

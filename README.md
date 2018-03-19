@@ -7,7 +7,7 @@ framework. The versioned framework provides a CMS REST API based on MongoDB with
 ## Restore Dev DB from Production
 
 ```
-bin/db-dump && bin/db-restore
+bin/db-restore
 ```
 
 ## Getting Started

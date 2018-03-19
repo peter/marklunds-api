@@ -1,9 +1,0 @@
-set -x
-
-source bin/env
-
-TARGET=$BASE_DIR/$TIMESTAMP
-
-mongodump -h ds147518.mlab.com:47518 -d $DATABASE -u $DB_USER -p $DB_PASSWORD -o $TARGET
-rm $BASE_DIR/latest
-ln -s $TARGET $BASE_DIR/latest
